@@ -1,5 +1,4 @@
-import streamlit as st #1.28.0
-from streamlit_drawable_canvas import st_canvas #0.9.3
+import streamlit as st #1.50.0
 from PIL import Image
 import pandas as pd
 import json 
@@ -38,7 +37,8 @@ def main():
     st.title("Here is the form.")
 
     #Questionnaire
-    status = st.text_input("Are you a student, a professional engineer or a researcher ?", "**Your status**")
+    status = st.radio("Are you a student, a professional engineer or a researcher ?", 
+                      ["Student", "Engineer", "Researcher"])
     field = st.radio(
         "What is your geosciences field ?",
         ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
@@ -67,7 +67,7 @@ def main():
     }
 
     if st.button("Download your answers in a JSON file !"):
-        with open(r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Results\test.json", "w") as f:
+        with open(r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Results\test.json", "w") as f: #To be modified
             json.dump(data, f)
 
     #Introduction à l'expérience d'interpretation
@@ -92,6 +92,14 @@ def main():
 
     st.title("Well Log Visualization - Grouped by Type")
     st.dataframe(df)
+
+    # Option : cacher les nan
+    #->parcourir les colonnes
+    #->pour chaque colonne vérifier si elle est entièrement composee de nan
+    #->si oui, la cacher -> dans le dataframe et dans les plots !
+    #df.dtypes
+
+
 
     # Configuration
     logs_per_row = st.slider("Logs per row", min_value=3, max_value=8, value=5)
@@ -180,40 +188,6 @@ def main():
 
     st.success("✓ All logs displayed!")
 
-
-    # Specify canvas parameters in application
-    col1, col2, col3 = st.columns([1, 1, 1])
-    drawing_mode = col1.selectbox(
-        "Drawing tool:", ("point", "freedraw", "line", "rect", "circle", "transform")
-    )
-
-    stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
-    if drawing_mode == 'point':
-        point_display_radius = col2.slider("Point display radius: ", 1, 25, 3)
-    stroke_color = col1.color_picker("Stroke color hex: ")
-    #bg_color = col3.color_picker("Background color hex: ", "#eee")
-    bg_image =  r"Data\test_well_log.png" #Forced background = well log.
-
-    realtime_update = col3.checkbox("Update in realtime", True)
-
-        
-
-    # Create a canvas component
-    canvas_result = st_canvas(
-        fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
-        stroke_width=stroke_width,
-        stroke_color=stroke_color,
-        #background_color=bg_color,
-        background_image=Image.open(bg_image) if bg_image else None,
-        update_streamlit=realtime_update,
-        height=750,
-        width=800,
-        drawing_mode=drawing_mode,
-        point_display_radius=point_display_radius if drawing_mode == 'point' else 0,
-        key="canvas",
-    )
-
-    
 
 
 

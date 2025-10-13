@@ -1,4 +1,4 @@
-ma[project]
+[project]
 name = "onlinewellloginterpretation"
 version = "0.1.0"
 description = "Add your description here"
@@ -8,6 +8,7 @@ dependencies = [
     "lasio>=0.32",
     "matplotlib>=3.10.7",
     "numpy>=1.26.4",
-    "streamlit==1.28.0",
-    "streamlit-drawable-canvas>=0.9.3",
+    "plotly>=6.3.1",
+    "streamlit==1.50.0",
+    "streamlit-plotly-events>=0.0.6",
 ]
