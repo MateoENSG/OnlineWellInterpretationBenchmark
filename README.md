@@ -18,8 +18,7 @@ The project will have a form with questions on the user background (student or p
 
 ## Dependancies
 python >=3.12
-streamlit 1.28.0
-streamlit_drawable_canvas 0.9.3
+streamlit 1.50.0
 lasio >=0.32
 matplotlib >=3.10.7
 numpy >=1.26.4
