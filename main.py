@@ -41,7 +41,7 @@ def main():
 
     #Questionnaire
     status = st.radio("Are you a student, a professional engineer or a researcher ?", 
-                      ["Student", "Engineer", "Researcher"])
+                      ["Student", "Engineer", "Researcher", "Autre"])
     field = st.radio(
         "What is your geosciences field ?",
         ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
