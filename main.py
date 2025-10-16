@@ -6,7 +6,7 @@ import lasio
 import lasio.examples
 import matplotlib.pyplot as plt
 import numpy as np
-
+import uuid
 
 
 def main():
@@ -22,6 +22,9 @@ def main():
 
 
     st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
+
+    #UUID
+    my_uuid = uuid.uuid4()
 
 
     #Presentation de l'experience
@@ -55,25 +58,26 @@ def main():
         ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
     )
 
-    #Enregistrement des réponses dans un fichier JSON
+    ##Enregistrement des réponses dans un fichier JSON
 
-    data = {
-        "Status": status,
-        "field": field,
-        "other_field": other_field,
-        "years": years,
-        "confidence": confidence
+    # data = {
+    #     "uuid": my_uuid,
+    #     "Status": status,
+    #     "field": field,
+    #     "other_field": other_field,
+    #     "years": years,
+    #     "confidence": confidence
 
-    }
+    # }
 
-    # Bouton de téléchargement JSON
-    json_str = json.dumps(data, indent=2)
-    st.download_button(
-        label="💾 Télécharger JSON",
-        data=json_str,
-        file_name="lignes_graph.json",
-        mime="application/json"
-    )
+    # # Bouton de téléchargement JSON
+    # json_str = json.dumps(data, indent=2)
+    # st.download_button(
+    #     label="💾 Télécharger JSON",
+    #     data=json_str,
+    #     file_name="lignes_graph.json",
+    #     mime="application/json"
+    # )
 
     #Introduction à l'expérience d'interpretation
     st.title("The interpretation experiment")
@@ -378,6 +382,12 @@ def main():
 
 
     export_data = {
+        "uuid": my_uuid,
+        "Status": status,
+        "field": field,
+        "other_field": other_field,
+        "years": years,
+        "confidence": confidence,
         "lignes_horizontales (Depth)": st.session_state.h_lines,
         "lignes_verticales (Log Values)": st.session_state.v_lines
     }
@@ -394,19 +404,19 @@ def main():
         mime="application/json"
     )
 
-    # Bouton de téléchargement CSV
-    csv_data = "Type,Valeur\n"
-    for h_line in st.session_state.h_lines:
-        csv_data += f"Horizontal Depth,{h_line}\n"
-    for v_line in st.session_state.v_lines:
-        csv_data += f"Vertical Log Value,{v_line}\n"
+    # # Bouton de téléchargement CSV
+    # csv_data = "Type,Valeur\n"
+    # for h_line in st.session_state.h_lines:
+    #     csv_data += f"Horizontal Depth,{h_line}\n"
+    # for v_line in st.session_state.v_lines:
+    #     csv_data += f"Vertical Log Value,{v_line}\n"
 
-    st.sidebar.download_button(
-        label="📋 Télécharger CSV",
-        data=csv_data,
-        file_name="lignes_graph.csv",
-        mime="text/csv"
-    )
+    # st.sidebar.download_button(
+    #     label="📋 Télécharger CSV",
+    #     data=csv_data,
+    #     file_name="lignes_graph.csv",
+    #     mime="text/csv"
+    # )
 
     # Afficher un résumé
     st.sidebar.markdown("---")
