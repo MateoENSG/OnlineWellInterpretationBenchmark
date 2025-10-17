@@ -116,6 +116,8 @@ def main():
         logs_per_row = st.slider("Logs per row", min_value=3, max_value=8, value=5)
     with col_config2:
         fig_height = st.slider("Figure height", min_value=6, max_value=15, value=10)
+    
+    
 
     # Sidebar pour les options des lignes
     st.sidebar.header("⚙️ Options des lignes")
@@ -376,6 +378,10 @@ def main():
             st.session_state.v_lines = []
             st.rerun()
 
+    # Espace de redaction de l'interpretation
+    interpretation = st.text_area("Write your interpretation here !")
+
+
     # Export des données
     st.sidebar.markdown("---")
     st.sidebar.header("📥 Export")
@@ -389,7 +395,8 @@ def main():
         "years": years,
         "confidence": confidence,
         "lignes_horizontales (Depth)": st.session_state.h_lines,
-        "lignes_verticales (Log Values)": st.session_state.v_lines
+        "lignes_verticales (Log Values)": st.session_state.v_lines,
+        "interpretation": interpretation
     }
 
     # Afficher les données
