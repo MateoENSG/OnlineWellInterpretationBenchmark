@@ -361,13 +361,16 @@ def main():
             
                 st.divider()
 
+    st.success("✓ Well log visualization loaded!")
+    st.markdown("---")
+
     # Espace de redaction de l'interpretation
     interpretation = st.text_area("Write your interpretation here !")
 
 
     # Export des données
-    st.sidebar.markdown("---")
-    st.sidebar.header("📥 Export")
+    st.markdown("---")
+    st.header("📥 Export")
 
 
     export_data = {
@@ -383,15 +386,22 @@ def main():
     }
 
     # Afficher les données
-    st.sidebar.json(export_data)
+    # st.sidebar.json(export_data)
 
     # Bouton de téléchargement JSON
+    def celebrate_download():
+        st.balloons()
+        st.balloons()
+        st.balloons()
+        st.balloons()
+
     json_str = json.dumps(export_data, indent=2)
-    st.sidebar.download_button(
-        label="💾 Télécharger JSON",
+    st.download_button(
+        label="💾 Télécharger au format JSON",
         data=json_str,
         file_name="lignes_graph.json",
-        mime="application/json"
+        mime="application/json",
+        on_click=celebrate_download
     )
 
     # # Bouton de téléchargement CSV
@@ -413,8 +423,6 @@ def main():
     st.sidebar.markdown("### 📊 Résumé")
     st.sidebar.metric("Lignes horizontales", len(st.session_state.h_lines))
     st.sidebar.metric("Lignes verticales", len(st.session_state.v_lines))
-
-    st.success("✓ Well log visualization loaded!")
 
 
 
