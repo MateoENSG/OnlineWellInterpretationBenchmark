@@ -1,0 +1,27 @@
+Traitement d'une image -> .svg -> Pg.12 livre -> Diagraphie comme en cours
+
+
+- ajouter des lignes horizontales :
+	- Regression/Transgression (MRS/MFS) -> Hierachie -> Grand cycle, cycle inférieur...
+	- Les séléctionner, supprimers, modifier etc.... les ENREGISTRER!!!!
+	
+- Radio -> checkbox
+
+"None of the above" -> "Other :" text
+
+Séparer en tabs -> Form | Interpretation
+
+Form -> Secteur d'activité -> geothermal, oil and gas, mineral ressources, hydrogeology, geosciences software, geotechnics, Polluted soil/ Environmental remediation, .......
+	-> "Avez-vous déjà travailler dans la zone d'étude ? ou un contexte similaire ?"
+
+
+Obtention du temps pour chaque parties -> time.time pour timestamp (dans ce cas timestamp de début nécessaire) -> Historique de timestamp et d'évenements -> ajout/modification/suppression de lignes etc ...
+
+A la fin proposer de fournir une adresse mail pour recevoir des updates et informations. -> Stocker les adresses par ordre alphabétique.
+
+Permettre le chargement des données d'une session précédente. 
+
+2 boutons -> Enregistrer et valider.
+
+
+Données International Ocean Drilling  Program

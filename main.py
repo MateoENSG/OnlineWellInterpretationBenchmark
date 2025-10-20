@@ -23,6 +23,8 @@ def main():
 
     st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
 
+    st.logo("Data/ringlogo.png", size="large")
+
     #UUID
     # my_uuid = uuid.uuid4()
 
@@ -37,35 +39,36 @@ def main():
     st.write("Also, any feedback on the experiment is welcomed ! Be it on the clarity of the instructions, the GUI etc...")
 
     #Introduction du questionnaire
-    st.title("Here is the form.")
+    st.header("Here is the form.")
 
     #Questionnaire
-    status = st.radio("Are you a student, a professional engineer or a researcher ?", 
-                      ["Student", "Engineer", "Researcher", "Autre"])
-    field = st.radio(
-        "What is your geosciences field ?",
-        ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
-    )
+    with st.expander("Background form", expanded=False): 
+        status = st.radio("Are you a student, a professional engineer or a researcher ?", 
+                        ["Student", "Engineer", "Researcher", "Autre"])
+        field = st.radio(
+            "What is your geosciences field ?",
+            ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
+        )
 
-    other_field = st.text_input("If you selected 'None of the above', please specify your field :", "**Your field**")
+        other_field = st.text_input("If you selected 'None of the above', please specify your field :", "Your field")
 
-    years = st.number_input(
-        "How many years of professional experience do you have in geosciences ?", value=None, placeholder="Type a number..."
-    )
+        years = st.number_input(
+            "How many years of professional experience do you have in geosciences ?", value=None, placeholder="Type a number..."
+        )
 
-    confidence = st.radio(
-        "How confident are you on well log interpretation ?",
-        ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
-    )
+        confidence = st.radio(
+            "How confident are you on well log interpretation ?",
+            ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
+        )
 
 
     #Introduction à l'expérience d'interpretation
-    st.title("The interpretation experiment")
+    st.header("The interpretation experiment")
     st.write("Now that you have filled the form you can go ahead and interprete the data presented in the next section.")
     st.write("The objective is for you to make annotations, to write ideas and basically any form of interpretation of the data you can think of.")
 
     #Présentation des données a interpreter
-    st.title("Data presentation")
+    st.header("Data presentation")
     st.write("The data you are to interprete is/is from a public dataset available on INSERT DATA ORIGIN")
 
 
@@ -275,7 +278,7 @@ def main():
                 row_columns = group_columns[start_idx:end_idx]
             
                 # Créer un expander pour chaque rangée de logs
-                with st.expander(f"📈 {group_name} - Row {row + 1}", expanded=True):
+                with st.expander(f"📈 {group_name} - Row {row + 1}", expanded=False):
                     # Container pour les lignes verticales
                     col_add_v, col_manage_v = st.columns([1, 1])
                     
