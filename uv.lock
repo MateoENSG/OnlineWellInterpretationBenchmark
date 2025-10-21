@@ -540,6 +540,7 @@ dependencies = [
     { name = "numpy" },
     { name = "plotly" },
     { name = "streamlit" },
+    { name = "streamlit-drawable-canvas" },
     { name = "uuid" },
 ]
 
@@ -550,6 +551,7 @@ requires-dist = [
     { name = "numpy", specifier = ">=1.26.4" },
     { name = "plotly", specifier = ">=6.3.1" },
     { name = "streamlit", specifier = "==1.50.0" },
+    { name = "streamlit-drawable-canvas", specifier = ">=0.9.3" },
     { name = "uuid", specifier = ">=1.30" },
 ]
 
@@ -893,6 +895,20 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/d6/f6/f7d3a0146577c1918439d3163707040f7111a7d2e7e2c73fa7adeb169c06/streamlit-1.50.0.tar.gz", hash = "sha256:87221d568aac585274a05ef18a378b03df332b93e08103fffcf3cd84d852af46", size = 9664808, upload-time = "2025-09-23T19:24:00.31Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/38/991bbf9fa3ed3d9c8e69265fc449bdaade8131c7f0f750dbd388c3c477dc/streamlit-1.50.0-py3-none-any.whl", hash = "sha256:9403b8f94c0a89f80cf679c2fcc803d9a6951e0fba542e7611995de3f67b4bb3", size = 10068477, upload-time = "2025-09-23T19:23:57.245Z" },
+]
+
+[[package]]
+name = "streamlit-drawable-canvas"
+version = "0.9.3"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "numpy" },
+    { name = "pillow" },
+    { name = "streamlit" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/07/fe/69768e7391587b97ef5c503c263bdf960e21f20c02c6b17427a8963af0c6/streamlit-drawable-canvas-0.9.3.tar.gz", hash = "sha256:a31e581bfd63545ecbca71bc3286c09f0542e4199109d33f56392345996802f5", size = 1158330, upload-time = "2023-06-05T17:16:20.755Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d6/87/bc94460ec77d824735da56fe8e321baf0692595c2a8a90b55f6908a5edc4/streamlit_drawable_canvas-0.9.3-py3-none-any.whl", hash = "sha256:fbb5e29017d359d5438e327ca0a64d0b337a9f2e1f999cd7593baa5bb8a27c25", size = 1169097, upload-time = "2023-06-05T17:16:18.167Z" },
 ]
 
 [[package]]
