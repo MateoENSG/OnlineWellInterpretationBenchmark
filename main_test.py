@@ -1,10 +1,8 @@
 import streamlit as st #1.50.0
-from streamlit_drawable_canvas import st_canvas #0.9.3
+from streamlit_image_coordinates import streamlit_image_coordinates
 from PIL import Image
 import pandas as pd
 import json 
-import lasio 
-import lasio.examples
 import matplotlib.pyplot as plt
 import numpy as np
 import uuid
@@ -61,37 +59,17 @@ def main():
 
 
     with tab2:
-        col1, col2 = st.columns(2)
+        col1, col2 = st.columns([0.3,0.7])
 
         with col1:
-            drawing_mode = col1.selectbox(
-                "Drawing tool:", ("point", "freedraw", "line", "rect", "circle", "transform")
-            )
-
-            stroke_width = st.slider("Stroke width: ", 1, 25, 3)
-            if drawing_mode == 'point':
-                point_display_radius = st.slider("Point display radius: ", 1, 25, 3)
-            stroke_color = st.color_picker("Stroke color hex: ")
-            bg_image =  r"Data\test_well_log.png" #Forced background = well log.
-
-            realtime_update = st.checkbox("Update in realtime", True)
-
+            
 
         with col2:
-            # Create a canvas component
-            canvas_result = st_canvas(
-            fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
-            stroke_width=stroke_width,
-            stroke_color=stroke_color,
-            #background_color=bg_color,
-            background_image=Image.open(bg_image) if bg_image else None,
-            update_streamlit=realtime_update,
-            height=750,
-            width=800,
-            drawing_mode=drawing_mode,
-            point_display_radius=point_display_radius if drawing_mode == 'point' else 0,
-            key="canvas",
-        )
+            coord = streamlit_image_coordinates(r"Data/test_well_log.png", use_column_width="always")
+            st.write(coord)
+
+            #With what is just up I can get the coordinates of a clic and so I can use them to add lines !!!
+
 
 
 
