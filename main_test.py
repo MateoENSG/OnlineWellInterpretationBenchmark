@@ -1,10 +1,9 @@
 import streamlit as st #1.50.0
 from streamlit_image_coordinates import streamlit_image_coordinates
-from PIL import Image
+from PIL import Image, ImageDraw
+import io
 import pandas as pd
 import json 
-import matplotlib.pyplot as plt
-import numpy as np
 import uuid
 
 
@@ -59,19 +58,157 @@ def main():
 
 
     with tab2:
-        col1, col2 = st.columns([0.3,0.7])
-
+        col1, col2 = st.columns([0.3, 0.7])
+        
+        # Initialize session state for storing lines
+        if 'lines' not in st.session_state:
+            st.session_state.lines = []
+        
+        # PREDEFINED LINE TYPES - Customize these as needed
+        LINE_TYPES = {
+            "Boundary Line": {
+                "style": "Solid",
+                "color": "#FF0000",  # Red
+                "thickness": 4
+            },
+            "Correlation Line": {
+                "style": "Dashed",
+                "color": "#0000FF",  # Blue
+                "thickness": 3
+            },
+            "Reference Line": {
+                "style": "Dotted",
+                "color": "#00FF00",  # Green
+                "thickness": 2
+            },
+            "Secondary Marker": {
+                "style": "Dash-Dot",
+                "color": "#FFA500",  # Orange
+                "thickness": 3
+            }
+        }
+        
         with col1:
+            st.write("**Interpretation Tools**")
             
-
+            # Line type selector - user only chooses from predefined types
+            selected_line = st.selectbox(
+                "Select line type:",
+                options=list(LINE_TYPES.keys()),
+                key="line_type_selector"
+            )
+            
+            # Display the properties of the selected line type
+            st.write("**Line Properties:**")
+            line_props = LINE_TYPES[selected_line]
+            st.write(f"- Style: {line_props['style']}")
+            st.write(f"- Color: {line_props['color']}")
+            st.write(f"- Thickness: {line_props['thickness']}px")
+            
+            # Clear all lines button
+            if st.button("Clear All Lines"):
+                st.session_state.lines = []
+                st.rerun()
+            
+            # Display current lines info
+            if st.session_state.lines:
+                st.write(f"**Lines drawn:** {len(st.session_state.lines)}")
+                st.write("**Line types used:**")
+                for i, line in enumerate(st.session_state.lines, 1):
+                    st.write(f"{i}. {line['name']} at y={line['y']}")
+        
         with col2:
-            coord = streamlit_image_coordinates(r"Data/test_well_log.png", use_column_width="always")
-            st.write(coord)
-
-            #With what is just up I can get the coordinates of a clic and so I can use them to add lines !!!
-
-
-
+            # Load the base image
+            from PIL import Image, ImageDraw
+            import tempfile
+            import os
+            
+            base_image = Image.open(r"Data/test_well_log.png")
+            
+            # Convert to RGB if necessary to ensure color
+            if base_image.mode != 'RGB':
+                base_image = base_image.convert('RGB')
+            
+            # Create a copy to draw on
+            image_with_lines = base_image.copy()
+            draw = ImageDraw.Draw(image_with_lines)
+            
+            # Draw all stored lines
+            for line in st.session_state.lines:
+                y = line['y']
+                color = line['color']
+                thickness = line['thickness']
+                style = line['style']
+                
+                # Convert hex color to RGB
+                color_rgb = tuple(int(color.lstrip('#')[i:i+2], 16) for i in (0, 2, 4))
+                
+                # Draw based on line style
+                if style == "Solid":
+                    draw.line([(0, y), (base_image.width, y)], fill=color_rgb, width=thickness)
+                elif style == "Dashed":
+                    dash_length = 20
+                    gap_length = 10
+                    x = 0
+                    while x < base_image.width:
+                        draw.line([(x, y), (min(x + dash_length, base_image.width), y)], 
+                                fill=color_rgb, width=thickness)
+                        x += dash_length + gap_length
+                elif style == "Dotted":
+                    dot_spacing = 10
+                    for x in range(0, base_image.width, dot_spacing):
+                        draw.ellipse([(x - thickness//2, y - thickness//2), 
+                                    (x + thickness//2, y + thickness//2)], 
+                                    fill=color_rgb)
+                elif style == "Dash-Dot":
+                    dash_length = 20
+                    dot_gap = 5
+                    gap_length = 10
+                    x = 0
+                    while x < base_image.width:
+                        # Dash
+                        draw.line([(x, y), (min(x + dash_length, base_image.width), y)], 
+                                fill=color_rgb, width=thickness)
+                        x += dash_length + dot_gap
+                        # Dot
+                        if x < base_image.width:
+                            draw.ellipse([(x - thickness//2, y - thickness//2), 
+                                        (x + thickness//2, y + thickness//2)], 
+                                        fill=color_rgb)
+                        x += dot_gap + gap_length
+            
+            # Save to temporary file - use fixed name to keep coordinates consistent
+            temp_dir = tempfile.gettempdir()
+            temp_filename = "well_log_annotated.png"
+            temp_path = os.path.join(temp_dir, temp_filename)
+            image_with_lines.save(temp_path, format='PNG')
+            
+            # Display image with fixed key to maintain coordinate system
+            coord = streamlit_image_coordinates(
+                temp_path, 
+                use_column_width="always",
+                key="image_coord_main"
+            )
+            
+            # When user clicks, add a new line
+            if coord is not None and coord.get('y') is not None:
+                line_props = LINE_TYPES[selected_line]
+                new_line = {
+                    'name': selected_line,
+                    'y': coord['y'],
+                    'color': line_props['color'],
+                    'thickness': line_props['thickness'],
+                    'style': line_props['style']
+                }
+                
+                # Check if line at this exact position already exists
+                line_exists = any(line['y'] == coord['y'] for line in st.session_state.lines)
+                
+                if not line_exists:
+                    st.session_state.lines.append(new_line)
+                    st.rerun()
+            
+            st.write(f"**Click coordinates:** {coord}")
 
 
 if __name__ == "__main__":
