@@ -58,7 +58,7 @@ def main():
 
 
     with tab2:
-        col1, col2 = st.columns([0.3, 0.7])
+        col1, col2 = st.columns([0.15, 0.85])
         
         # Initialize session state for storing lines
         if 'lines' not in st.session_state:
@@ -66,25 +66,25 @@ def main():
         
         # PREDEFINED LINE TYPES - Customize these as needed
         LINE_TYPES = {
-            "Boundary Line": {
+            "Major Regression": {
                 "style": "Solid",
                 "color": "#FF0000",  # Red
-                "thickness": 4
-            },
-            "Correlation Line": {
-                "style": "Dashed",
-                "color": "#0000FF",  # Blue
-                "thickness": 3
-            },
-            "Reference Line": {
-                "style": "Dotted",
-                "color": "#00FF00",  # Green
                 "thickness": 2
             },
-            "Secondary Marker": {
-                "style": "Dash-Dot",
+            "Major Transgression": {
+                "style": "Solid",
+                "color": "#0000FF",  # Blue
+                "thickness": 2
+            },
+            "Minor regression": {
+                "style": "Solid",
+                "color": "#00FF00",  # Green
+                "thickness": 1
+            },
+            "Minor transgression": {
+                "style": "Solid",
                 "color": "#FFA500",  # Orange
-                "thickness": 3
+                "thickness": 1
             }
         }
         
@@ -98,7 +98,7 @@ def main():
                 key="line_type_selector"
             )
             
-            # Display the properties of the selected line type
+            # Display the properties of the selected line type - To comment in final product
             st.write("**Line Properties:**")
             line_props = LINE_TYPES[selected_line]
             st.write(f"- Style: {line_props['style']}")
@@ -110,7 +110,7 @@ def main():
                 st.session_state.lines = []
                 st.rerun()
             
-            # Display current lines info
+            # Display current lines info - To comment in final product
             if st.session_state.lines:
                 st.write(f"**Lines drawn:** {len(st.session_state.lines)}")
                 st.write("**Line types used:**")
@@ -189,6 +189,8 @@ def main():
                 use_column_width="always",
                 key="image_coord_main"
             )
+            # st.title(f"coord y {coord['y']}") #TypeError: 'NoneType' object is not subscriptable
+            # st.title(f"coord y {coord.get('y')}") #AttributeError: 'NoneType' object has no attribute 'get'
             
             # When user clicks, add a new line
             if coord is not None and coord.get('y') is not None:
