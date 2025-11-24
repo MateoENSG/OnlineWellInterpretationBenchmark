@@ -15,7 +15,6 @@ import json
 
 st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
 
-
 #Presentation de l'experience
 
 st.title("Welcome to the well log interpretation uncertainties experiment !")
@@ -25,12 +24,13 @@ st.write("For that it is needed to obtain interpretation from various individual
 st.write("To participate you only need to complete the little form about 'who' you are and then to interprete the data presented to you and send the answer !")
 st.write("Also, any feedback on the experiment is welcomed ! Be it on the clarity of the instructions, the GUI etc...")
 
+
 #Introduction du questionnaire
 st.title("Here is the form.")
 
 #Questionnaire
-status = st.text_input("Are you a student, a professional engineer or a researcher ?", "**Your status**")
-field = st.radio(
+status = st.multiselect("Are you a student, an engineer and/or a researcher ?", ["Student", "Engineer", "Researcher"])
+field = st.multiselect(
     "What is your geosciences field ?",
     ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
 )
@@ -76,18 +76,37 @@ st.write("The data you are to interprete is/is from a public dataset available o
 st.title("Interpretation")
 
 # Specify canvas parameters in application
-col1, col2, col3 = st.columns([1, 1, 1])
+col1, col2 = st.columns([1, 1])
 drawing_mode = col1.selectbox(
     "Drawing tool:", ("line", "transform")
 )
 
-stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
-stroke_color = col1.color_picker("Stroke color hex: ")
-if drawing_mode == 'point':
-    point_display_radius = col2.slider("Point display radius: ", 1, 25, 3)
+line_type = col2.selectbox(
+    "Type of line:", ("Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
+)
+
+# stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
+# stroke_color = col1.color_picker("Stroke color hex: ")
+
+if line_type == "Major Transgression" :
+    stroke_width = 6
+    stroke_color = "rgba(0, 0, 255, 1)"
+
+if line_type == "Minor Transgression" :
+    stroke_width = 3
+    stroke_color = "rgba(0, 0, 255, 1)"
+
+if line_type == "Major Regression" :
+    stroke_width = 6
+    stroke_color = "rgba(255, 0, 0, 1)"
+
+if line_type == "Minor Regression" :
+    stroke_width = 3
+    stroke_color = "rgba(255, 0, 0, 1)"
+
 bg_image =  r"Data\test_well_log.png" #Forced background = well log.
 
-realtime_update = col3.checkbox("Update in realtime", True)
+realtime_update = True 
 
 # Create a canvas component
 canvas_result = st_canvas(
@@ -100,11 +119,8 @@ canvas_result = st_canvas(
     height=750,
     width=800,
     drawing_mode=drawing_mode,
-    point_display_radius=point_display_radius if drawing_mode == 'point' else 0,
     key="canvas",
 )
-
-
 
 
 
