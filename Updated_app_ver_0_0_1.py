@@ -77,6 +77,7 @@ st.title("Interpretation")
 
 # Specify canvas parameters in application
 col1, col2 = st.columns([1, 1])
+
 drawing_mode = col1.selectbox(
     "Drawing tool:", ("line", "transform")
 )
@@ -121,6 +122,5 @@ canvas_result = st_canvas(
     drawing_mode=drawing_mode,
     key="canvas",
 )
-
 
 
