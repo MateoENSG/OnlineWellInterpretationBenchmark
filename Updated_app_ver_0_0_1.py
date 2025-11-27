@@ -46,6 +46,8 @@ confidence = st.radio(
     ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
 )
 
+mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?", "**Your email contact**")
+
 #Enregistrement des réponses dans un fichier JSON
 
 data = {
@@ -53,7 +55,8 @@ data = {
     "field": field,
     "other_field": other_field,
     "years": years,
-    "confidence": confidence
+    "confidence": confidence,
+    "mail": mail
 
 }
 
