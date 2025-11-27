@@ -1,8 +1,10 @@
 import streamlit as st #1.28.0
 from streamlit_drawable_canvas import st_canvas #0.9.3
 from PIL import Image
+import io
 import pandas as pd
 import json 
+import uuid
 
 # Organisation de l'app :
 #   - Présentation de l'expérience
@@ -14,6 +16,14 @@ import json
 
 
 st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
+
+# Générer un ID de session unique (persistant pendant toute la session)
+if 'session_id' not in st.session_state:
+    st.session_state.session_id = str(uuid.uuid4())
+
+session_id = st.session_state.session_id
+
+st.write(f"ID de session : {session_id}")
 
 #Presentation de l'experience
 
@@ -35,7 +45,7 @@ field = st.multiselect(
     ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
 )
 
-other_field = st.text_input("If you selected 'None of the above', please specify your field :", "**Your field**")
+other_field = st.text_input("If you selected 'None of the above', please specify your field :")
 
 years = st.number_input(
     "How many years of professional experience do you have in geosciences ?", value=None, placeholder="Type a number..."
@@ -46,7 +56,7 @@ confidence = st.radio(
     ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
 )
 
-mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?", "**Your email contact**")
+mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?")
 
 #Enregistrement des réponses dans un fichier JSON
 
@@ -60,9 +70,18 @@ data = {
 
 }
 
-if st.button("Download your answers in a JSON file !"):
-    with open(r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Results\test.json", "w") as f:
-        json.dump(data, f)
+# Vérifier si au moins une question a une réponse
+if status or field or years is not None or confidence or (mail and mail != "**Your email contact**"):
+    json_string = json.dumps(data, indent=2, ensure_ascii=False)
+    
+    st.download_button(
+        label="📥 Télécharger vos réponses (JSON)",
+        data=json_string,
+        file_name=f"form_{session_id}.json",
+        mime="application/json"
+    )
+else:
+    st.info("Veuillez répondre à au moins une question pour télécharger vos réponses.")
 
 
 
@@ -126,4 +145,37 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
+# Section de téléchargement
+st.subheader("Télécharger votre dessin")
 
+col1, col2 = st.columns(2)
+
+with col1:
+    if canvas_result.image_data is not None:
+        img = Image.fromarray(canvas_result.image_data.astype('uint8'), 'RGBA')
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        
+        st.download_button(
+            label="📥 Télécharger l'image (PNG)",
+            data=buf.getvalue(),
+            file_name=f"canvas_{session_id}.png",
+            mime="image/png"
+        )
+
+with col2:
+    if canvas_result.json_data is not None:
+        json_string = json.dumps(canvas_result.json_data, indent=2)
+        
+        st.download_button(
+            label="📥 Télécharger les données (JSON)",
+            data=json_string,
+            file_name=f"donnees_canvas_{session_id}.json",
+            mime="application/json"
+        )
+
+# Afficher les informations
+if canvas_result.json_data is not None:
+    objects = canvas_result.json_data.get("objects", [])
+    if objects:
+        st.info(f"✏️ {len(objects)} objet(s) dessiné(s)")
