@@ -14,7 +14,8 @@ These intrepetations will be collected and used to study the interpretation unce
 The project will have a form with questions on the user background (student or professionnal, which studies branch and how many years of experience, etc) to determine factors to the uncertainties.
 
 ## Install
-
+Activate the .venv
+in terminal use : streamlit run Updated_app_ver_0_0_1.py
 
 ## Dependancies
 python>=3.12
