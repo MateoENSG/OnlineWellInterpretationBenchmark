@@ -15,6 +15,7 @@ The project will have a form with questions on the user background (student or p
 
 ## Install
 Activate the .venv
+
 in terminal use : streamlit run Updated_app_ver_0_0_1.py
 
 ## Dependancies
