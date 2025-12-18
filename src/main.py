@@ -113,7 +113,7 @@ st.title("Interpretation")
 col1, col2 = st.columns([1, 1])
 
 drawing_mode = col1.selectbox(
-    "Drawing tool:", ("line", "transform")
+    "Drawing tool:", ("line", "transform", "rect")
 )
 
 line_type = col2.selectbox(
@@ -139,7 +139,10 @@ if line_type == "Minor Regression" :
     stroke_width = 3
     stroke_color = "rgba(255, 0, 0, 1)"
 
-bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs.pdf" #Forced background = well log.
+
+
+
+bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
 
 realtime_update = True 
 
@@ -151,8 +154,8 @@ canvas_result = st_canvas(
     #background_color=bg_color,
     background_image=Image.open(bg_image) if bg_image else None,
     update_streamlit=realtime_update,
-    height=750,
-    width=800,
+    height=1050,
+    width=1100,
     drawing_mode=drawing_mode,
     key="canvas",
 )
