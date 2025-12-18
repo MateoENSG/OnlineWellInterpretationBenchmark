@@ -16,7 +16,7 @@ The project will have a form with questions on the user background (student or p
 ## Install
 Activate the .venv
 
-in terminal use : streamlit run Updated_app_ver_0_0_1.py
+in terminal use : streamlit run src/main.py
 
 ## Dependancies
 python>=3.12

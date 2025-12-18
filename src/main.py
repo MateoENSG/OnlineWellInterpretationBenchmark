@@ -29,70 +29,82 @@ st.write(f"ID de session : {session_id}")
 
 st.title("Welcome to the well log interpretation uncertainties experiment !")
 
-st.write("The goal of this experiment is to 'quantify' the impact of an individual background and prior experiences in its interpretation of well log data.")
-st.write("For that it is needed to obtain interpretation from various individuals of varying background, experiences and field.")
-st.write("To participate you only need to complete the little form about 'who' you are and then to interprete the data presented to you and send the answer !")
-st.write("Also, any feedback on the experiment is welcomed ! Be it on the clarity of the instructions, the GUI etc...")
+#using columns in order to put a space on the left of the text. Aesthetic thing.
+
+col1, col2 = st.columns([0.015, 0.985])
+with col2:
+    st.write("The goal of this experiment is to 'quantify' the impact of an individual background and prior experiences in its interpretation of well log data.")
+    st.write("For that it is needed to obtain interpretation from various individuals of varying background, experiences and field.")
+    st.write("To participate you only need to complete the little form about 'who' you are and then to interprete the data presented to you and send the answer !")
+    st.write("Also, any feedback on the experiment is welcomed ! Be it on the clarity of the instructions, the GUI etc...")
 
 
 #Introduction du questionnaire
 st.title("Here is the form.")
 
-#Questionnaire
-status = st.multiselect("Are you a student, an engineer and/or a researcher ?", ["Student", "Engineer", "Researcher"])
-field = st.multiselect(
-    "What is your geosciences field ?",
-    ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
-)
-
-other_field = st.text_input("If you selected 'None of the above', please specify your field :")
-
-years = st.number_input(
-    "How many years of professional experience do you have in geosciences ?", value=None, placeholder="Type a number..."
-)
-
-confidence = st.radio(
-    "How confident are you on well log interpretation ?",
-    ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"]
-)
-
-mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?")
-
-#Enregistrement des réponses dans un fichier JSON
-
-data = {
-    "Status": status,
-    "field": field,
-    "other_field": other_field,
-    "years": years,
-    "confidence": confidence,
-    "mail": mail
-
-}
-
-# Vérifier si au moins une question a une réponse
-if status or field or years is not None or confidence or (mail and mail != "**Your email contact**"):
-    json_string = json.dumps(data, indent=2, ensure_ascii=False)
-    
-    st.download_button(
-        label="📥 Télécharger vos réponses (JSON)",
-        data=json_string,
-        file_name=f"form_{session_id}.json",
-        mime="application/json"
+with st.expander("Form"):
+    #Questionnaire
+    status = st.multiselect("Are you a student, an engineer and/or a researcher ?", ["Student", "Engineer", "Researcher"])
+    field = st.multiselect(
+        "What is your geosciences field ?",
+        ["Stratigraphy", "Geology", "Geophysics", "Petrophysics", "Sedimentology", "Formation evaluation", "Geomodeling", "Statistics or geostatistics", "Machine Learning", "Applied Mathematics", "None of the above"]
     )
-else:
-    st.info("Veuillez répondre à au moins une question pour télécharger vos réponses.")
+
+    other_field = st.text_input("If you selected 'None of the above', please specify your field :")
+
+    years = st.number_input(
+        "How many years of professional experience do you have in geosciences ?", value=None, placeholder="Type a number..."
+    )
+
+    confidence = st.selectbox(
+        "How confident are you on well log interpretation ?",
+        ["I am the best there is", "I'm excellent", "I'm quite good", "Neutral", "not particularly confident", "Not confident", "First time in my life I see well log data", "Geosciences ? What's that ?"],
+        index=None,
+        placeholder="Select your confidence level"
+    )
+
+    mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?")
+
+    #Enregistrement des réponses dans un fichier JSON
+
+    data = {
+        "Status": status,
+        "field": field,
+        "other_field": other_field,
+        "years": years,
+        "confidence": confidence,
+        "mail": mail
+
+    }
+
+    # Vérifier si au moins une question a une réponse
+    if status or field or years is not None or confidence or (mail and mail != "**Your email contact**"):
+        json_string = json.dumps(data, indent=2, ensure_ascii=False)
+        
+        st.download_button(
+            label="📥 Télécharger vos réponses (JSON)",
+            data=json_string,
+            file_name=f"form_{session_id}.json",
+            mime="application/json"
+        )
+    else:
+        st.info("Veuillez répondre à au moins une question pour télécharger vos réponses.")
 
 
 
 #Introduction à l'expérience d'interpretation
 st.title("The interpretation experiment")
-st.write("Now that you have filled the form you can go ahead and interprete the data presented in the next section.")
-st.write("The objective is for you to make annotations, to write ideas and basically any form of interpretation of the data you can think of.")
+
+col1, col2 = st.columns([0.015, 0.985])
+with col2:
+    st.write("Now that you have filled the form you can go ahead and interprete the data presented in the next section.")
+    st.write("The objective is for you to make annotations, to write ideas and basically any form of interpretation of the data you can think of.")
 
 #Présentation des données a interpreter
 st.title("Data presentation")
-st.write("The data you are to interprete is/is from a public dataset available on INSERT DATA ORIGIN")
+col1, col2 = st.columns([0.015, 0.985])
+with col2:
+    st.write("The data you are to interprete is/is from a public dataset available on INSERT DATA ORIGIN")
 
 #Interpretation
 st.title("Interpretation")
@@ -127,7 +139,7 @@ if line_type == "Minor Regression" :
     stroke_width = 3
     stroke_color = "rgba(255, 0, 0, 1)"
 
-bg_image =  r"Data\test_well_log.png" #Forced background = well log.
+bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs.pdf" #Forced background = well log.
 
 realtime_update = True 
 
@@ -144,6 +156,9 @@ canvas_result = st_canvas(
     drawing_mode=drawing_mode,
     key="canvas",
 )
+
+st.text_area("Write your interpretation here")
+
 
 # Section de téléchargement
 st.subheader("Télécharger votre dessin")
@@ -179,3 +194,5 @@ if canvas_result.json_data is not None:
     objects = canvas_result.json_data.get("objects", [])
     if objects:
         st.info(f"✏️ {len(objects)} objet(s) dessiné(s)")
+
+
