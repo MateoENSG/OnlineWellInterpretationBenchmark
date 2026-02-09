@@ -115,12 +115,12 @@ col1, col2 = st.columns([1, 1])
 
 #Drawing_mode
 drawing_mode = col1.selectbox(
-    "Drawing tool:", ("horizontalline", "transform", "freedraw")
+    "Drawing tool:", ("line", "transform", "rect", "freedraw")
 )
 
-if drawing_mode == "horizontalline":
+if drawing_mode == "line":
     line_type = col2.selectbox(
-        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
+        "Type of line:", ("Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
     )
 
 if drawing_mode == "rect":
@@ -135,14 +135,6 @@ if drawing_mode == "freedraw":
     line_type = "Freedraw"
 
 #Line_type
-
-if line_type == "Maximum Flooding Surface" :
-    stroke_width = 6
-    stroke_color = "rgba(0, 0, 255, 1)"
-
-if line_type == "Maximum Regression Surface" :
-    stroke_width = 6
-    stroke_color = "rgba(255, 0, 0, 1)"
 
 if line_type == "Major Transgression" :
     stroke_width = 6
@@ -160,6 +152,14 @@ if line_type == "Minor Regression" :
     stroke_width = 3
     stroke_color = "rgba(255, 0, 0, 1)"
 
+if line_type == "Oil" :
+    stroke_width = 3
+    stroke_color = "rgba(255, 0, 0, 1)"
+
+if line_type == "Water" :
+    stroke_width = 3
+    stroke_color = "rgba(0, 0, 255, 1)"
+
 if line_type == "Transform" :
     stroke_width = 1
     stroke_color = "rgba(255, 0, 0, 1)"
@@ -167,9 +167,6 @@ if line_type == "Transform" :
 if line_type == "Freedraw" :
     stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
     stroke_color = col1.color_picker("Stroke color hex: ")
-
-
-
 
 bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
 
