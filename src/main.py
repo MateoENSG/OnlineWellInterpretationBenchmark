@@ -17,7 +17,7 @@ import uuid
 
 st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
 
-# Générer un ID de session unique (persistant pendant toute la session)
+# Generation of a unique session ID (persistant troughout the entire session)
 if 'session_id' not in st.session_state:
     st.session_state.session_id = str(uuid.uuid4())
 
@@ -25,7 +25,7 @@ session_id = st.session_state.session_id
 
 st.write(f"ID de session : {session_id}")
 
-#Presentation de l'experience
+#Presentation 
 
 st.title("Welcome to the well log interpretation uncertainties experiment !")
 
@@ -39,11 +39,11 @@ with col2:
     st.write("Also, any feedback on the experiment is welcomed ! Be it on the clarity of the instructions, the GUI etc...")
 
 
-#Introduction du questionnaire
+#Form introduction
 st.title("Here is the form.")
 
 with st.expander("Form"):
-    #Questionnaire
+    #Form
     status = st.multiselect("Are you a student, an engineer and/or a researcher ?", ["Student", "Engineer", "Researcher"])
     field = st.multiselect(
         "What is your geosciences field ?",
@@ -65,8 +65,7 @@ with st.expander("Form"):
 
     mail = st.text_input("If you wish to receive updates on the experiment and your results, could you write an email contact down ?")
 
-    #Enregistrement des réponses dans un fichier JSON
-
+    #Saving the answers in a JSON file
     data = {
         "Status": status,
         "field": field,
@@ -77,22 +76,22 @@ with st.expander("Form"):
 
     }
 
-    # Vérifier si au moins une question a une réponse
+    # Check if at least one question was answered to allow the download
     if status or field or years is not None or confidence or (mail and mail != "**Your email contact**"):
         json_string = json.dumps(data, indent=2, ensure_ascii=False)
         
         st.download_button(
-            label="📥 Télécharger vos réponses (JSON)",
+            label="📥 Download your answers (JSON)",
             data=json_string,
             file_name=f"form_{session_id}.json",
             mime="application/json"
         )
     else:
-        st.info("Veuillez répondre à au moins une question pour télécharger vos réponses.")
+        st.info("Please answer at least one question in order to download your form.")
 
 
 
-#Introduction à l'expérience d'interpretation
+#Introduction to the interpretation
 st.title("The interpretation experiment")
 
 col1, col2 = st.columns([0.015, 0.985])
@@ -100,7 +99,7 @@ with col2:
     st.write("Now that you have filled the form you can go ahead and interprete the data presented in the next section.")
     st.write("The objective is for you to make annotations, to write ideas and basically any form of interpretation of the data you can think of.")
 
-#Présentation des données a interpreter
+#Data introduction
 st.title("Data presentation")
 col1, col2 = st.columns([0.015, 0.985])
 with col2:
@@ -108,20 +107,35 @@ with col2:
 
 #Interpretation
 st.title("Interpretation")
+st.write("Here you can use the various drawing tools to interpret de log. You also have an area where you can enter text to details your interpretation.")
+st.write("Note that you might have to wait a second or two when modifying the drawing tool or the type of line you are using to ensure the modification is effective.")
 
 # Specify canvas parameters in application
 col1, col2 = st.columns([1, 1])
 
+#Drawing_mode
 drawing_mode = col1.selectbox(
-    "Drawing tool:", ("line", "transform", "rect")
+    "Drawing tool:", ("line", "transform", "rect", "freedra")
 )
 
-line_type = col2.selectbox(
-    "Type of line:", ("Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
-)
+if drawing_mode == "line":
+    line_type = col2.selectbox(
+        "Type of line:", ("Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
+    )
 
-# stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
-# stroke_color = col1.color_picker("Stroke color hex: ")
+if drawing_mode == "rect":
+    line_type = col2.selectbox(
+        "Type of line:", ("Oil", "Water", "Major Regression", "Minor Regression")
+    )    
+
+if drawing_mode == "transform":
+    line_type = "Transform"
+
+if drawing_mode == "freedraw":
+    stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
+    stroke_color = col1.color_picker("Stroke color hex: ")
+
+#Line_type
 
 if line_type == "Major Transgression" :
     stroke_width = 6
@@ -139,7 +153,17 @@ if line_type == "Minor Regression" :
     stroke_width = 3
     stroke_color = "rgba(255, 0, 0, 1)"
 
+if line_type == "Oil" :
+    stroke_width = 3
+    stroke_color = "rgba(255, 0, 0, 1)"
 
+if line_type == "Water" :
+    stroke_width = 3
+    stroke_color = "rgba(0, 0, 255, 1)"
+
+if line_type == "Transform" :
+    stroke_width = 1
+    stroke_color = "rgba(255, 0, 0, 1)"
 
 
 bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
@@ -160,11 +184,26 @@ canvas_result = st_canvas(
     key="canvas",
 )
 
-st.text_area("Write your interpretation here")
+interpretation = st.text_area("Write your interpretation here")
+data = {
+    "Interpretation" : interpretation
+    }
 
+# Check if interpretation isn't empty
+if interpretation is not None:
+    json_string = json.dumps(data, indent=2, ensure_ascii=False)
+    
+    st.download_button(
+        label="📥 Download your interpretation",
+        data=json_string,
+        file_name=f"interpretation_{session_id}.json",
+        mime="application/json"
+    )
+else:
+    st.info("Please enter an interpretation to allow the download.")
 
 # Section de téléchargement
-st.subheader("Télécharger votre dessin")
+st.subheader("Download your drawing")
 
 col1, col2 = st.columns(2)
 
@@ -175,7 +214,7 @@ with col1:
         img.save(buf, format="PNG")
         
         st.download_button(
-            label="📥 Télécharger l'image (PNG)",
+            label="📥 Download the image (PNG)",
             data=buf.getvalue(),
             file_name=f"canvas_{session_id}.png",
             mime="image/png"
@@ -186,9 +225,9 @@ with col2:
         json_string = json.dumps(canvas_result.json_data, indent=2)
         
         st.download_button(
-            label="📥 Télécharger les données (JSON)",
+            label="📥 Download the image's data (JSON)",
             data=json_string,
-            file_name=f"donnees_canvas_{session_id}.json",
+            file_name=f"data_canvas_{session_id}.json",
             mime="application/json"
         )
 
