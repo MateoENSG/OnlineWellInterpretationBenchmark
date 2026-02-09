@@ -115,7 +115,7 @@ col1, col2 = st.columns([1, 1])
 
 #Drawing_mode
 drawing_mode = col1.selectbox(
-    "Drawing tool:", ("line", "transform", "rect", "freedra")
+    "Drawing tool:", ("line", "transform", "rect", "freedraw")
 )
 
 if drawing_mode == "line":
@@ -132,8 +132,7 @@ if drawing_mode == "transform":
     line_type = "Transform"
 
 if drawing_mode == "freedraw":
-    stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
-    stroke_color = col1.color_picker("Stroke color hex: ")
+    line_type = "Freedraw"
 
 #Line_type
 
@@ -165,6 +164,9 @@ if line_type == "Transform" :
     stroke_width = 1
     stroke_color = "rgba(255, 0, 0, 1)"
 
+if line_type == "Freedraw" :
+    stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
+    stroke_color = col1.color_picker("Stroke color hex: ")
 
 bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
 
