@@ -123,11 +123,6 @@ if drawing_mode == "horizontalline":
         "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
     )
 
-if drawing_mode == "rect":
-    line_type = col2.selectbox(
-        "Type of line:", ("Oil", "Water", "Major Regression", "Minor Regression")
-    )    
-
 if drawing_mode == "transform":
     line_type = "Transform"
 
