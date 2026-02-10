@@ -103,7 +103,8 @@ with col2:
 st.title("Data presentation")
 col1, col2 = st.columns([0.015, 0.985])
 with col2:
-    st.write("The data you are to interprete is/is from a public dataset available on INSERT DATA ORIGIN")
+    st.write("The data you are to interprete is/is from a public dataset available on https://mlp.ldeo.columbia.edu/data/logplot/ . The well log presented here is from the Ocean Drilling Program, " \
+    "the Leg 182: Great Australian Bight and is the hole: 1128D")
 
 #Interpretation
 st.title("Interpretation")
@@ -132,11 +133,11 @@ if drawing_mode == "freedraw":
 #Line_type
 
 if line_type == "Maximum Flooding Surface" :
-    stroke_width = 6
+    stroke_width = 2
     stroke_color = "rgba(0, 0, 255, 1)"
 
 if line_type == "Maximum Regression Surface" :
-    stroke_width = 6
+    stroke_width = 2
     stroke_color = "rgba(255, 0, 0, 1)"
 
 

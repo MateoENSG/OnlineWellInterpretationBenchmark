@@ -21,7 +21,7 @@ in terminal use : streamlit run src/main.py
 ## Dependancies
 python>=3.12
 streamlit==1.28.0
-streamlit-drawable-canvas==0.9.3
+streamlit-drawable-canvas-horizontalline : https://github.com/MateoENSG/streamlit-drawable-canvas-horizontalline.git 
 lasio>=0.32
 matplotlib>=3.10.7
 numpy>=1.26.4
