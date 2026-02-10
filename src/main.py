@@ -120,7 +120,7 @@ drawing_mode = col1.selectbox(
 
 if drawing_mode == "horizontalline":
     line_type = col2.selectbox(
-        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Major Transgression", "Minor Transgression", "Major Regression", "Minor Regression")
+        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface")
     )
 
 if drawing_mode == "transform":
@@ -139,21 +139,6 @@ if line_type == "Maximum Regression Surface" :
     stroke_width = 6
     stroke_color = "rgba(255, 0, 0, 1)"
 
-if line_type == "Major Transgression" :
-    stroke_width = 6
-    stroke_color = "rgba(0, 0, 255, 1)"
-
-if line_type == "Minor Transgression" :
-    stroke_width = 3
-    stroke_color = "rgba(0, 0, 255, 1)"
-
-if line_type == "Major Regression" :
-    stroke_width = 6
-    stroke_color = "rgba(255, 0, 0, 1)"
-
-if line_type == "Minor Regression" :
-    stroke_width = 3
-    stroke_color = "rgba(255, 0, 0, 1)"
 
 if line_type == "Transform" :
     stroke_width = 1

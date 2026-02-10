@@ -10,6 +10,6 @@ dependencies = [
     "numpy>=1.26.4",
     "plotly>=6.3.1",
     "streamlit==1.28.0",
-    "streamlit-drawable-canvas>=0.9.3",
+    "streamlit-drawable-canvas @ git+https://github.com/MateoENSG/streamlit-drawable-canvas-horizontalline",
     "uuid>=1.30",
 ]
