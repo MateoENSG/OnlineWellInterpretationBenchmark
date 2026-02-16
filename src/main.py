@@ -108,8 +108,10 @@ with col2:
 
 #Interpretation
 st.title("Interpretation")
-st.write("Here you can use the various drawing tools to interpret de log. You also have an area where you can enter text to details your interpretation.")
-st.write("Note that you might have to wait a second or two when modifying the drawing tool or the type of line you are using to ensure the modification is effective.")
+col1, col2 = st.columns([0.015, 0.985])
+with col2:
+    st.write("Here you can use the various drawing tools to interpret de log. You also have an area where you can enter text to details your interpretation.")
+    st.write("Note that you might have to wait a second or two when modifying the drawing tool or the type of line you are using to ensure the modification is effective.")
 
 # Specify canvas parameters in application
 col1, col2 = st.columns([1, 1])
