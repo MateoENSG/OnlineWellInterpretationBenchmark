@@ -123,7 +123,7 @@ drawing_mode = col1.selectbox(
 
 if drawing_mode == "horizontalline":
     line_type = col2.selectbox(
-        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface")
+        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Generic limit")
     )
 
 if drawing_mode == "transform":
@@ -142,6 +142,9 @@ if line_type == "Maximum Regression Surface" :
     stroke_width = 2
     stroke_color = "rgba(255, 0, 0, 1)"
 
+if line_type == "Generic limit" :
+    stroke_width = 2
+    stroke_color = "rgba(0, 0, 0, 1)"
 
 if line_type == "Transform" :
     stroke_width = 1
