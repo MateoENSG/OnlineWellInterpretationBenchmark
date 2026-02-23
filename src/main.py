@@ -226,6 +226,6 @@ with col2:
 if canvas_result.json_data is not None:
     objects = canvas_result.json_data.get("objects", [])
     if objects:
-        st.info(f"✏️ {len(objects)} objet(s) dessiné(s)")
+        st.info(f"✏️ {len(objects)} object(s) drawn")
 
 
