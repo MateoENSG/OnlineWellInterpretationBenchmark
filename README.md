@@ -14,9 +14,12 @@ These intrepetations will be collected and used to study the interpretation unce
 The project will have a form with questions on the user background (student or professionnal, which studies branch and how many years of experience, etc) to determine factors to the uncertainties.
 
 ## Install
-Activate the .venv
-
-in terminal use : streamlit run src/main.py
+This project was made using UV, here are the steps to install the project using UV :
+1) Git clone the repository
+2) Create a venv using UV : uv venv
+3) Sync your new venv with the uv.lock : uv sync uv/lock
+4) Activate the .venv : .venv\Scripts\activate
+5) streamlit run src/main.py
 
 ## Dependancies
 python>=3.12
