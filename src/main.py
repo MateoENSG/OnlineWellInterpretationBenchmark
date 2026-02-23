@@ -193,7 +193,7 @@ if interpretation is not None:
 else:
     st.info("Please enter an interpretation to allow the download.")
 
-# Section de téléchargement
+# Download segment
 st.subheader("Download your drawing")
 
 col1, col2 = st.columns(2)
@@ -222,7 +222,7 @@ with col2:
             mime="application/json"
         )
 
-# Afficher les informations
+# Display of how many objects are drawn 
 if canvas_result.json_data is not None:
     objects = canvas_result.json_data.get("objects", [])
     if objects:
