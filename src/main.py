@@ -156,7 +156,7 @@ if line_type == "Freedraw" :
 
 
 
-
+#Seems it needs to be an absolute path 
 bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
 
 realtime_update = True 
