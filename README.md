@@ -16,10 +16,12 @@ The project will have a form with questions on the user background (student or p
 ## Install
 This project was made using UV, here are the steps to install the project using UV :
 1) Git clone the repository
-2) Create a venv using UV : uv venv
-3) Sync your new venv with the uv.lock : uv sync uv/lock
-4) Activate the .venv : .venv\Scripts\activate
-5) streamlit run src/main.py
+2) in another folder in the same root, git clone the repository for streamlit-drawable-canvas-horizontalline : https://github.com/MateoENSG/streamlit-drawable-canvas-horizontalline.git
+3) Go back to OnlineWellLogInterpretation folder
+4) Create a venv using UV : uv venv
+5) Sync your new venv with the uv.lock : uv sync uv/lock
+6) Activate the .venv : .venv\Scripts\activate
+7) streamlit run src/main.py
 
 ## Dependancies
 python>=3.12
