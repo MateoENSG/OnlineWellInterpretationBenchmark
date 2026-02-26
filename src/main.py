@@ -1,18 +1,11 @@
 import streamlit as st #1.28.0
 from streamlit_drawable_canvas import st_canvas #0.9.3
+import matplotlib.pyplot as plt
 from PIL import Image
 import io
 import pandas as pd
 import json 
 import uuid
-
-# Organisation de l'app :
-#   - Présentation de l'expérience
-#   - Introduction du questionnaire et questionnaire -> Quelles catégories ?
-#   - Introduction à l'exercice d'interpretation
-#   - Affichage des données à interpreter
-#   - Entrée de l'interprétation -> Quel format ?
-#   - Récupération de l'interpretation ? -> Comment ?
 
 
 st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
@@ -118,7 +111,7 @@ col1, col2 = st.columns([1, 1])
 
 #Drawing_mode
 drawing_mode = col1.selectbox(
-    "Drawing tool:", ("horizontalline", "transform", "freedraw")
+    "Drawing tool:", ("horizontalline","")
 )
 
 if drawing_mode == "horizontalline":
@@ -126,11 +119,11 @@ if drawing_mode == "horizontalline":
         "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Generic limit")
     )
 
-if drawing_mode == "transform":
-    line_type = "Transform"
+# if drawing_mode == "transform":
+#     line_type = "Transform"
 
-if drawing_mode == "freedraw":
-    line_type = "Freedraw"
+# if drawing_mode == "freedraw":
+#     line_type = "Freedraw"
 
 #Line_type
 
@@ -146,18 +139,18 @@ if line_type == "Generic limit" :
     stroke_width = 2
     stroke_color = "rgba(0, 0, 0, 1)"
 
-if line_type == "Transform" :
-    stroke_width = 1
-    stroke_color = "rgba(255, 0, 0, 1)"
+# if line_type == "Transform" :
+#     stroke_width = 1
+#     stroke_color = "rgba(255, 0, 0, 1)"
 
-if line_type == "Freedraw" :
-    stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
-    stroke_color = col1.color_picker("Stroke color hex: ")
+# if line_type == "Freedraw" :
+#     stroke_width = col2.slider("Stroke width: ", 1, 25, 3)
+#     stroke_color = col1.color_picker("Stroke color hex: ")
 
 
 
 #Seems it needs to be an absolute path 
-bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\182-1128D_logs_selected_and_cropped_2.png" #Forced background = well log.
+bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\317-U1352B_logs.png" #Forced background = well log.
 
 realtime_update = True 
 
@@ -228,4 +221,72 @@ if canvas_result.json_data is not None:
     if objects:
         st.info(f"✏️ {len(objects)} object(s) drawn")
 
+### Display of Secondary interpretation step using wavelet interpretation data  ###
 
+bg_image = r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\Wavelet_IODP317_U1352B.png"
+
+canvas_result_wavelog = st_canvas(
+    fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
+    stroke_width=stroke_width,
+    stroke_color=stroke_color,
+    #background_color=bg_color,
+    background_image=Image.open(bg_image) if bg_image else None,
+    update_streamlit=realtime_update,
+    height=1150,
+    width=1400,
+    drawing_mode=drawing_mode,
+    key="canvas_wave",
+)
+
+interpretation_wavelog = st.text_area("Write your interpretation here", key="interpretation_wave")
+data = {
+    "Interpretation_wavelog" : interpretation_wavelog
+    }
+
+# Check if interpretation isn't empty
+if interpretation_wavelog is not None:
+    json_string = json.dumps(data, indent=2, ensure_ascii=False)
+    
+    st.download_button(
+        label="📥 Download your interpretation",
+        data=json_string,
+        file_name=f"interpretation_wavelog_{session_id}.json",
+        mime="application/json"
+    )
+else:
+    st.info("Please enter an interpretation to allow the download.")
+
+# Download segment
+st.subheader("Download your drawing")
+
+col1, col2 = st.columns(2)
+
+with col1:
+    if canvas_result_wavelog.image_data is not None:
+        img = Image.fromarray(canvas_result.image_data.astype('uint8'), 'RGBA')
+        buf = io.BytesIO()
+        img.save(buf, format="PNG")
+        
+        st.download_button(
+            label="📥 Download the image (PNG)",
+            data=buf.getvalue(),
+            file_name=f"canvas_wavelog_{session_id}.png",
+            mime="image/png"
+        )
+
+with col2:
+    if canvas_result_wavelog.json_data is not None:
+        json_string = json.dumps(canvas_result.json_data, indent=2)
+        
+        st.download_button(
+            label="📥 Download the image's data (JSON)",
+            data=json_string,
+            file_name=f"data_canvas_wavelog_{session_id}.json",
+            mime="application/json"
+        )
+
+# Display of how many objects are drawn 
+if canvas_result.json_data is not None:
+    objects = canvas_result.json_data.get("objects", [])
+    if objects:
+        st.info(f"✏️ {len(objects)} object(s) drawn")
