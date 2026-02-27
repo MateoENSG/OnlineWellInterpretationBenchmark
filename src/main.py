@@ -6,6 +6,7 @@ import io
 import pandas as pd
 import json 
 import uuid
+from pathlib import Path
 
 
 st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
@@ -150,7 +151,7 @@ if line_type == "Generic limit" :
 
 
 #Seems it needs to be an absolute path 
-bg_image =  r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\317-U1352B_logs.png" #Forced background = well log.
+bg_image = Path(__file__).parent.parent /"Data" /"logs_from_OceanDrillingProgram" /"317-U1352B_logs.png"  
 
 realtime_update = True 
 
@@ -223,7 +224,7 @@ if canvas_result.json_data is not None:
 
 ### Display of Secondary interpretation step using wavelet interpretation data  ###
 
-bg_image = r"C:\Users\e3812u\Documents\Projet_3A\OnlineWellLogInterpretation\Data\logs_from_OceanDrillingProgram\Wavelet_IODP317_U1352B.png"
+bg_image = Path(__file__).parent.parent /"Data" /"logs_from_OceanDrillingProgram" /"Wavelet_IODP317_U1352B.png"  
 
 canvas_result_wavelog = st_canvas(
     fill_color="rgba(255, 165, 0, 0.3)",  # Fixed fill color with some opacity
