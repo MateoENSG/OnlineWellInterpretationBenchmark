@@ -9,7 +9,7 @@ import uuid
 from pathlib import Path
 
 
-st.set_page_config(layout="wide")  # Utilise toute la largeur de l'écran
+st.set_page_config(layout="wide")  #  Utilise toute la largeur de l'écran
 
 # Generation of a unique session ID (persistant troughout the entire session)
 if 'session_id' not in st.session_state:
