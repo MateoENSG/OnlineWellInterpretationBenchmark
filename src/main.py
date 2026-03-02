@@ -224,6 +224,13 @@ if canvas_result.json_data is not None:
 
 ### Display of Secondary interpretation step using wavelet interpretation data  ###
 
+#Interpretation
+st.title("Interpretation Part 2")
+col1, col2 = st.columns([0.015, 0.985])
+with col2:
+    st.write("This is the second part of the interpretation where you are presented with the same dataset but are also given a Continuous Wavelet Transform interpretation (i.e CWT)")
+    st.write("Please do the same excercide as the first part  while taking into account the informations from the CWT interpretation.")
+
 bg_image = Path(__file__).parent.parent /"Data" /"logs_from_OceanDrillingProgram" /"Wavelet_IODP317_U1352B.png"  
 
 canvas_result_wavelog = st_canvas(
