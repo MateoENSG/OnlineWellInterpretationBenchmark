@@ -150,7 +150,7 @@ if line_type == "Generic limit" :
 
 
 
-#Seems it needs to be an absolute path 
+#Background image setting
 bg_image = Path(__file__).parent.parent /"Data" /"logs_from_OceanDrillingProgram" /"317-U1352B_logs.png"  
 
 realtime_update = True 
@@ -230,6 +230,37 @@ col1, col2 = st.columns([0.015, 0.985])
 with col2:
     st.write("This is the second part of the interpretation where you are presented with the same dataset but are also given a Continuous Wavelet Transform interpretation (i.e CWT)")
     st.write("Please do the same excercide as the first part  while taking into account the informations from the CWT interpretation.")
+
+
+# Specify canvas parameters in application
+col1, col2 = st.columns([1, 1])
+
+#Drawing_mode
+drawing_mode = col1.selectbox(
+    "Drawing tool:", ("horizontalline",""),
+    key="wavetool"
+)
+
+if drawing_mode == "horizontalline":
+    line_type = col2.selectbox(
+        "Type of line:", ("Maximum Flooding Surface", "Maximum Regression Surface", "Generic limit"),
+        key='waveline'
+    )
+
+#Line_type
+
+if line_type == "Maximum Flooding Surface" :
+    stroke_width = 2
+    stroke_color = "rgba(0, 0, 255, 1)"
+
+if line_type == "Maximum Regression Surface" :
+    stroke_width = 2
+    stroke_color = "rgba(255, 0, 0, 1)"
+
+if line_type == "Generic limit" :
+    stroke_width = 2
+    stroke_color = "rgba(0, 0, 0, 1)"
+
 
 bg_image = Path(__file__).parent.parent /"Data" /"logs_from_OceanDrillingProgram" /"Wavelet_IODP317_U1352B.png"  
 
